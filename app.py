@@ -42,7 +42,10 @@ else:
     if st.sidebar.button("🚪 Cerrar Sesión"):
         cerrar_sesion()
 
-    # Configuración de la base de datos local
+    st.title("🖥️ Servicio Técnico - Salas de Informática")
+    st.caption("Sistema de gestión y mantenimiento de equipos de computación")
+    st.markdown("---")
+   
     ARCHIVO_DATOS = "reportes.csv"
     COLUMNAS = [
         "id", "fecha", "sala", "numero_equipo", 
