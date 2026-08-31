@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 
-# 1. Configuración de la base de datos local
+
 ARCHIVO_DATOS = "reportes.csv"
 COLUMNAS = [
     "id", "fecha", "sala", "numero_equipo", 
@@ -11,18 +11,18 @@ COLUMNAS = [
 ]
 st.title("🛠️ Servicio Técnico - Salas de Informática")
 
-# Crear el archivo con encabezados si no existe
+
 if not os.path.exists(ARCHIVO_DATOS):
     df_vacio = pd.DataFrame(columns=COLUMNAS)
     df_vacio.to_csv(ARCHIVO_DATOS, index=False)
 
-# Configuración de interfaz
+
 st.set_page_config(page_title="Servicio Técnico", page_icon="🔧", layout="centered")
 
-# 2. Pestañas principales
+
 pestana_registro, pestana_consulta = st.tabs(["➕ Registrar servicio", "🔍 Consultar historial"])
 
-# --- PESTAÑA 1: REGISTRAR SERVICIO ---
+
 with pestana_registro:
     with st.form("formulario_servicio", clear_on_submit=True):
         fecha = st.date_input("Fecha")
@@ -59,14 +59,14 @@ with pestana_registro:
                 df_actualizado.to_csv(ARCHIVO_DATOS, index=False)
                 st.success("¡Registro guardado con éxito!")
 
-# --- PESTAÑA 2: CONSULTAR HISTORIAL ---
+
 with pestana_consulta:
     st.header("Historial de servicio técnico")
     
     if os.path.exists(ARCHIVO_DATOS):
         df_datos = pd.read_csv(ARCHIVO_DATOS)
         
-        # Filtros de búsqueda
+       
         col1, col2 = st.columns(2)
         
         with col1:
@@ -77,7 +77,7 @@ with pestana_consulta:
             estados_disponibles = ["Todos", "Pendiente", "En proceso", "Resuelto"]
             filtro_estado = st.selectbox("Filtrar por estado", estados_disponibles)
 
-        # Aplicación de filtros
+        
         df_filtrado = df_datos.copy()
         
         if filtro_sala != "Todas":
@@ -86,6 +86,6 @@ with pestana_consulta:
         if filtro_estado != "Todos":
             df_filtrado = df_filtrado[df_filtrado["estado"] == filtro_estado]
 
-        # Resultado
+      
         st.write(f"Se encontraron **{len(df_filtrado)}** registros.")
         st.dataframe(df_filtrado, use_container_width=True, hide_index=True)
