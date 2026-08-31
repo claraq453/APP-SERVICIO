@@ -13,15 +13,13 @@ if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
     st.session_state.usuario_actual = ""
 
-
 def cerrar_sesion():
     st.session_state.autenticado = False
     st.session_state.usuario_actual = ""
     st.rerun()
 
-
 if not st.session_state.autenticado:
-    st.title("🔧 Servicio Técnico - Salas Informática")
+    st.title("🔧 Servicio Técnico")
     st.subheader("🔐 Iniciar Sesión")
     
     with st.form("form_login"):
@@ -37,7 +35,6 @@ if not st.session_state.autenticado:
             else:
                 st.error("Usuario o contraseña incorrectos")
 
-# --- PANTALLA 2: APLICACIÓN PRINCIPAL (SOLO TRAS INICIAR SESIÓN) ---
 else:
     
     st.sidebar.title("Menú")
@@ -45,7 +42,7 @@ else:
     if st.sidebar.button("🚪 Cerrar Sesión"):
         cerrar_sesion()
 
-    
+    # Configuración de la base de datos local
     ARCHIVO_DATOS = "reportes.csv"
     COLUMNAS = [
         "id", "fecha", "sala", "numero_equipo", 
@@ -60,7 +57,7 @@ else:
     
     pestana_registro, pestana_consulta = st.tabs(["➕ Registrar servicio", "🔍 Consultar historial"])
 
-  
+   
     with pestana_registro:
         with st.form("formulario_servicio", clear_on_submit=True):
             fecha = st.date_input("Fecha")
@@ -69,7 +66,7 @@ else:
             tipo_problema = st.selectbox("Tipo de problema", ["Hardware", "Software", "Red / Conectividad", "Otro"])
             descripcion = st.text_area("Descripción del problema")
             
-            # Se autocompleta el responsable con el usuario logueado
+            
             responsable = st.text_input("Quién hizo el servicio", value=st.session_state.usuario_actual)
             
             estado = st.selectbox("Estado", ["Pendiente", "En proceso", "Resuelto"])
